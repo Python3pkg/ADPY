@@ -18,23 +18,43 @@
     along with ADPY.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+
 from ADPY import adfun
 import numpy as np
-import sympy as sp
 
-x1,x2,x3  =sp.symbols('x1 x2 x3')
 
-x=np.array([x1,x2,x3])
+def f(x):
+    u=1.0
+    l=0.5
+    g=9.81
+    M=1.0
+    m=0.1
+    
+    ff = [  x[1],
+            m*np.sin(x[2])*(-l*x[3]**2+g*np.cos(x[2]))/(M+m*np.sin(x[2])**2)+1/(M+m*np.sin(x[2])**2)*u,
+            x[3],
+            np.sin(x[2])*(-m*l*x[3]**2*np.cos(x[2])+g*(M+m))/(M*l+m*l*np.sin(x[2])**2)+np.cos(x[2])/(M*l+l*m*np.sin(x[2])**2)*u
+            ]
+    
+    return ff
 
-GLS = [ x2+x3-5,
-        -x1**2 +x3 +1, 
-        -x2 + sp.cos(x1) -x3 + 7]
 
-x0=np.array([100.0,1.0,1.0])
+x = [0.3,5.0,np.pi/4.0,5.5]
 
-x_tupel = (x,x0)
-foo_ad = adfun(GLS,x_tupel,SYMPY=True)
+foo_ad = adfun(f,x)
 
-p = foo_ad([1,2,3])
+foo_ad.init_reverse_jac()
 
-print("p = ", p)
+J = foo_ad.jac_reverse(x)
+
+print "REVERSE"
+print 'ADPY J = \n',J
+
+foo_ad.init_forward_jac()
+
+
+J = foo_ad.jac_forward(x)
+
+print "FORWARD"
+print 'ADPY J = \n',J
+

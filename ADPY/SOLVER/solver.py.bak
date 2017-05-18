@@ -19,7 +19,7 @@
 """
 
 
-
+from __future__ import division
 import numpy as np
 from numpy.linalg import norm
 
@@ -61,28 +61,28 @@ class solver:
     def solve(self):
 
         if (self.algo=='newton'):
-            print('###############################')
-            print('### run newton solver with   ###')
-            print('###           ADPY           ###')
-            print('###############################')
+            print '###############################'
+            print '### run newton solver with   ###'
+            print '###           ADPY           ###'
+            print '###############################'
             self.newton()
 
         if (self.algo=='gauss'):
-            print('###############################')
-            print('### run gauss solver with   ###')
-            print('###           ADPY           ###')
-            print('###############################')
+            print '###############################'
+            print '### run gauss solver with   ###'
+            print '###           ADPY           ###'
+            print '###############################'
             self.gauss()
 
         if (self.algo=='leven'):
-            print('###################################')
-            print('###  Levenberg-Marquet-Solver   ###')
-            print('###           ADPY              ###')
-            print('###################################')
+            print '###################################'
+            print '###  Levenberg-Marquet-Solver   ###'
+            print '###           ADPY              ###'
+            print '###################################'
             self.leven()
 
         if (self.sol==None):
-            print('Wrong solver')
+            print 'Wrong solver'
             return self.x0
         else:
             return self.sol
@@ -106,7 +106,7 @@ class solver:
             #IPS.nest(loc=locals(), glob=globals())
             f1 = np.matrix(self.F(x0))
             res = np.linalg.norm(f1)
-            print(i,': ',res)
+            print i,': ',res
         self.sol = x0
 
 
@@ -128,7 +128,7 @@ class solver:
             x= np.array(x.flatten())[0]
             res_alt=res
             res = norm(r)
-            print(i,': ',res)
+            print i,': ',res
 
         self.sol = x
 
@@ -162,16 +162,16 @@ class solver:
                 Fxs = self.F(x+np.array(s).flatten())
 
                 roh = (normFx**2 - norm(Fxs)**2) / (normFx**2 - (norm(F+J*s))**2)
-                print('Roh:', roh)
+                print 'Roh:', roh
                 if (roh<=b0): ny = 1.5*ny
                 if (roh>=b1): ny = 0.75*ny
-                print('ny:', ny)
+                print 'ny:', ny
 
             roh = 0.0
             x += np.array(s).flatten()
 
             res_alt=res
             res = normFx
-            print(i,': ',res)
+            print i,': ',res
 
         self.sol = x

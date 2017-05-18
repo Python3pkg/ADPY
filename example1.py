@@ -47,14 +47,14 @@ foo_ad.init_reverse_jac()
 
 J = foo_ad.jac_reverse(x)
 
-print "REVERSE"
-print 'ADPY J = \n',J
+print("REVERSE")
+print('ADPY J = \n',J)
 
 foo_ad.init_forward_jac()
 
 
 J = foo_ad.jac_forward(x)
 
-print "FORWARD"
-print 'ADPY J = \n',J
+print("FORWARD")
+print('ADPY J = \n',J)
 

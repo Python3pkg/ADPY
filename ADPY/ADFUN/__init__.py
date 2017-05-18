@@ -9,8 +9,8 @@ __install_path__ = os.path.realpath(__file__)
 
 __all__ = ['adfun']
 
-import adfun
-from adfun import adfun
+from . import adfun
+from .adfun import adfun
 
 
 

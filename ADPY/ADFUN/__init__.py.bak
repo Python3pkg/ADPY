@@ -7,12 +7,10 @@ ADPY, a library for Automatic Differentation (AD) in Python
 import os
 __install_path__ = os.path.realpath(__file__)
 
-from . import ADFUN
-from .ADFUN import *
+__all__ = ['adfun']
 
-from . import SOLVER
-from .SOLVER import *
-
+import adfun
+from adfun import adfun
 
 
 

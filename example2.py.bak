@@ -27,7 +27,7 @@ try:
     import sympy as sp
     SYMPY_SUPPORT = True
 except ImportError:
-    print('no sympy support')
+    print 'no sympy support'
     SYMPY_SUPPORT = False
     pass
 
@@ -61,7 +61,7 @@ Solver1 = solver(f,y0,algo='newton',tol=1e-10,maxx=100)
 
 sol = Solver1.solve()
 
-print(sol)
+print sol
 
 
 ##### with sympy ######
@@ -84,4 +84,4 @@ x0 = [-5, -5]
 Solver2 = solver(F,x0,x=x,algo='leven',tol=1e-10,maxx=100,SYMPY=True)
 sol = Solver2.solve()
 
-print(sol)
+print sol

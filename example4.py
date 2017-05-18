@@ -38,20 +38,20 @@ x1 = np.array([1.,2.,3.,4.,5.])
 AD = adfun(f,x1)
 
 t1 = clock()
-for i in xrange(10000):
+for i in range(10000):
     y = 0
     y = f(x1)
     
-print "Built-in function took", clock()-t1, "s"
-print y
+print("Built-in function took", clock()-t1, "s")
+print(y)
 
 t1 = clock()
-for i in xrange(10000):
+for i in range(10000):
     y = 0
     y = AD(x1)
     
-print "ADPY computational graph took", clock()-t1, "s"
-print y
+print("ADPY computational graph took", clock()-t1, "s")
+print(y)
 
 
 

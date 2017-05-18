@@ -18,20 +18,20 @@
     along with ADPY.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-
+from __future__ import division
 
 import numpy as np
 try:
     import sympy as sp
 except ImportError:
-    print('no sympy support')
+    print 'no sympy support'
     pass
 
 import types
 
-from .adfloat import adfloat
-from .globalfuncs import *
-from .library import GRAPH_LIBRARY, FORWARD_J_LIBRARY1, FORWARD_J_LIBRARY2, REVERSE_J_LIBRARY1, REVERSE_J_LIBRARY2
+from adfloat import adfloat
+from globalfuncs import *
+from library import GRAPH_LIBRARY, FORWARD_J_LIBRARY1, FORWARD_J_LIBRARY2, REVERSE_J_LIBRARY1, REVERSE_J_LIBRARY2
 
 
 class adfun:
@@ -82,7 +82,7 @@ class adfun:
 
             R = self.fun(self.x_list)
             
-            temp1 = list(map(str,R))
+            temp1 = map(str,R)
 
             self.graphfoo.append("    self.v = v")
 
@@ -120,7 +120,7 @@ class adfun:
 #########################################################################################
         for GG in self.graph_list:
             op,va = GG
-            v1,v2 = list(map(str,va))
+            v1,v2 = map(str,va)
             v3 = self.graph['%s%s' % (op,va)].idd
 
             self.graphforward.append("    %s=v[%s]" %(v3,self.v_dic[v3]) )
@@ -152,7 +152,7 @@ class adfun:
 #########################################################################################
         for GG in self.graph_list:
             op,va = GG
-            v1,v2 = list(map(str,va))
+            v1,v2 = map(str,va)
             v3 = self.graph['%s%s' % (op,va)].idd
 
             self.reverse_v_init_set.add('%s_r' % v1)
@@ -203,7 +203,7 @@ class adfun:
             self.v_dic[v3] = self.index
             self.graph[md] = AA
             self.graph_list.append((op,va))
-            v1,v2 = list(map(str,va))
+            v1,v2 = map(str,va)
             
             self.graphfoo.append(GRAPH_LIBRARY[op](v3,v1,v2))
             self.graphfoo.append("    v.append(%s)" % v3)
@@ -218,18 +218,18 @@ class adfun:
         r = '\n'
         code = compile(r.join(graph),'<string>', 'exec')
         NN = {}
-        exec(code, NN)
+        exec code in NN
         setattr(self, func_name, types.MethodType(NN[func_name], self))
 
     #@profile
     def jac_forward(self,x):
         if not self.forward_one_row:
-            print('Forward mode had not been initialized')
+            print 'Forward mode had not been initialized'
             return
 
         self.F = self.f(x)
         self.J = np.empty(self.J_dim)
-        for i in range(self.J_dim[1]):
+        for i in xrange(self.J_dim[1]):
 
             self.J[:,i] = self.forward_one_row(self.forward_seed[i,:])
 
@@ -237,13 +237,13 @@ class adfun:
 
     def jac_reverse(self,x):
         if not self.reverse_one_column:
-            print('Reverse mode had not been initialized')
+            print 'Reverse mode had not been initialized'
             return
 
         self.F = self.f(x)
         self.J = np.empty(self.J_dim)
 
-        for i in range(self.J_dim[0]):
+        for i in xrange(self.J_dim[0]):
 
             self.J[i,:] = self.reverse_one_column(self.reverse_seed[:,i])
 
